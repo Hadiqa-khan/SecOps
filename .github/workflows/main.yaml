@@ -1,0 +1,23 @@
+name: CI
+
+on: [push] #on every branch
+
+jobs:
+  #a SAST JOB
+  sast_scan:
+    name: Run Bandi Scan - used for Python
+    runs-on: ubuntu-latest #fresh new envs
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2 
+        #Python to install bandit
+      - name: Set up Python Install
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit Scan
+        run: bandit -r . #scan recursively
